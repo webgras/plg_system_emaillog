@@ -1,59 +1,11 @@
 <?php
-/**
- * @package    plg_system_emaillog
- *
- * @author     Sigrid Gramlinger
- * @copyright  Copyright (C) 2017 webgras
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- * @link       http://www.webgras.at
- */
 
 defined('_JEXEC') or die;
 
 /**
  * Plg_system_emaillog plugin.
- *
- * @package  plg_system_emaillog
- * @since    1.0
- *
- * Logs the emails sent through Joomla! com_contact forms.
- * Log entries are saved to database or file (administrator/logs/error.php) or both
- */
-class plgSystemEmaillog extends JPlugin
-{
-	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
-	 * @since  1.0
-	 */
-	protected $app;
-
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  1.0
-	 */
-	protected $db;
-
-    /**
-     * Load plugin language files automatically
-     *
-     * @var    boolean
-     * @since  3.6.3
-     */
-    protected $autoloadLanguage = true;
-
-    /**
-     * onSubmitContact
-     *
-     * @param   object   $contact   Comment
-     * @param   array    &$data     Comment
-     *
-     * @return  void
-     */
-    public function onSubmitContact(&$contact, &$data)
+**/
+    function onSubmitContact(&$contact, &$data)
     {
         $logtype = $this->params->get('logtype', 'db');
 
@@ -71,7 +23,7 @@ class plgSystemEmaillog extends JPlugin
         }
     }
 
-    protected function writeLogDB($contact, $data)
+    function writeLogDB($contact, $data)
     {
         $comFields = json_encode($data['com_fields']);
 
@@ -113,7 +65,7 @@ class plgSystemEmaillog extends JPlugin
         $this->db->insertObject('#__contact_email_log', $email, 'log_id');
     }
 
-    protected function writeLogFile($contact, $data)
+    function writeLogFile($contact, $data)
     {
         $logEmail = array();
         $logEmail['status'] = 'emailcontact';
