@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 /**
  * Plg_system_emaillog plugin.
  *
@@ -57,11 +55,9 @@ class plgSystemEmaillog extends JPlugin
      */
     public function onSubmitContact(&$contact, &$data)
     {
-        $logtype = $this->params->get('logtype');
+        $logtype = $this->params->get('logtype', 'db');
+
         switch ($logtype) {
-            case 'db':
-                $this->writeLogDB($contact, $data);
-                break;
             case 'file':
                 $this->writeLogFile($contact, $data);
                 break;
@@ -69,63 +65,62 @@ class plgSystemEmaillog extends JPlugin
                 $this->writeLogFile($contact, $data);
                 $this->writeLogDB($contact, $data);
                 break;
+            default:
+                $this->writeLogDB($contact, $data);
+                break;
         }
     }
 
-    protected function writeLogDB($contact,$data)
+    protected function writeLogDB($contact, $data)
     {
-        $currentTime = new JDate('now');
         $comFields = json_encode($data['com_fields']);
-        $db = JFactory::getDbo();
 
-        $columns = array('sent');
-        $values = array($db->quote($currentTime->format('Y-m-d h:m:s')));
+	$email = new stdClass;
+
+	$email->sent = JFactory::getDate()->toSql();
 
         //check if fields should be logged
-        if ($this->params->get('log_contactid', 0))
+        if ($this->params->get('log_contactid', 1))
         {
-            $columns[] = 'contact_id';
-            $values[] = $db->quote($contact->id);
+            $email->contact_id = (int) $contact->id;
         }
-        if ($this->params->get('log_sender_name', 0))
+
+        if ($this->params->get('log_sender_name', 1))
         {
-            $columns[] = 'contact_name';
-            $values[] = $db->quote($data['contact_name']);
+            $email->contact_name = $data['contact_name'];
         }
-        if ($this->params->get('log_sender_email', 0))
+
+        if ($this->params->get('log_sender_email', 1))
         {
-            $columns[] = 'contact_email';
-            $values[] = $db->quote($data['contact_email']);
+            $email->contact_email = $data['contact_email'];
         }
+
         if ($this->params->get('log_mail_subject', 0))
         {
-            $columns[] = 'contact_subject';
-            $values[] = $db->quote($data['contact_subject']);
+            $email->contact_subject = $data['contact_subject'];
         }
+
         if ($this->params->get('log_message', 0))
         {
-            $columns[] = 'contact_message';
-            $values[] = $db->quote($data['contact_message']);
+            $email->contact_message = $data['contact_message'];
         }
+
         if ($this->params->get('log_mail_fields', 0))
         {
-            $columns[] = 'com_fields';
-            $values[] = $db->quote($comFields);
+            $email->com_fields = $comFields;
         }
 
-        $query = $db->getQuery(true)
-            ->insert($db->quoteName('#__contact_email_log'))
-            ->columns($db->quoteName($columns))
-            ->values(implode(',', $values));
-
-        $db->setQuery($query);
-        $db->execute();
+        $this->db->insertObject('#__contact_email_log', $email, 'log_id');
     }
-    protected function writeLogFile($contact,$data)
+
+    protected function writeLogFile($contact, $data)
     {
         $logEmail = array();
         $logEmail['status'] = 'emailcontact';
+
+        // @TODO: use JText::sprintf(...)
         $logEmail['comment'] = JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_CONTACTID') . $contact->id . JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_FROM') . $data['contact_email'] . JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_SUBJECT') . $data['contact_subject'];
+        
         JLog::addLogger(array(), JLog::INFO);
         JLog::add($logEmail['comment'], JLog::INFO, $logEmail['status']);
     }
