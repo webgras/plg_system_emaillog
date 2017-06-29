@@ -5,7 +5,14 @@ defined('_JEXEC') or die;
 /**
  * Plg_system_emaillog plugin.
 **/
-    function onSubmitContact(&$contact, &$data)
+
+class PlgSystemEmaillog extends JPlugin
+{
+    protected $db;
+    protected $app;
+    protected $autoloadLanguage = true;
+
+    public function onSubmitContact(&$contact, &$data)
     {
         $logtype = $this->params->get('logtype', 'db');
 
@@ -23,13 +30,13 @@ defined('_JEXEC') or die;
         }
     }
 
-    function writeLogDB($contact, $data)
+    private function writeLogDB($contact, $data)
     {
         $comFields = json_encode($data['com_fields']);
 
-	$email = new stdClass;
+	    $email = new stdClass;
 
-	$email->sent = JFactory::getDate()->toSql();
+	    $email->sent = JFactory::getDate()->toSql();
 
         //check if fields should be logged
         if ($this->params->get('log_contactid', 1))
@@ -65,15 +72,19 @@ defined('_JEXEC') or die;
         $this->db->insertObject('#__contact_email_log', $email, 'log_id');
     }
 
-    function writeLogFile($contact, $data)
+    private function writeLogFile($contact, $data)
     {
+        //set message entry
         $logEmail = array();
         $logEmail['status'] = 'emailcontact';
+        $logEmail['comment'] = JText::sprintf('PLG_SYSTEM_EMAILLOG_FILELOG_TEXTENTRY', $contact->id, $data['contact_email'], $data['contact_subject']);
 
-        // @TODO: use JText::sprintf(...)
-        $logEmail['comment'] = JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_CONTACTID') . $contact->id . JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_FROM') . $data['contact_email'] . JText::_('PLG_SYSTEM_EMAILLOG_FILELOG_SUBJECT') . $data['contact_subject'];
-        
-        JLog::addLogger(array(), JLog::INFO);
+        //set filename in directory administrator/log/
+        $options = array();
+        $options['text_file'] = 'email_log.php';
+
+        //save to log
+        JLog::addLogger($options, JLog::INFO);
         JLog::add($logEmail['comment'], JLog::INFO, $logEmail['status']);
     }
 }
