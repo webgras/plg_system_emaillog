@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_EMAILLOG</name>
+	<creationDate>27.06.2017</creationDate>
+	<author>Sigrid</author>
+	<authorEmail>gramlinger@webgras.at</authorEmail>
+	<authorUrl>http://www.webgras.at</authorUrl>
+	<copyright>2017 copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>0.0.1</version>
+	<description>PLG_SYSTEM_EMAILLOG_XML_DESCRIPTION</description>
+
+	<!-- Language files -->
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_emaillog.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_emaillog.sys.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_emaillog.ini</language>
+		<language tag="de-DE">de-DE/de-DE.plg_system_emaillog.sys.ini</language>
+	</languages>
+
+	<!-- Plugin files -->
+	<files>
+		<filename plugin="emaillog">emaillog.php</filename>
+		<folder>language</folder>
+		<folder>sql</folder>
+	</files>
+
+	<!-- Config parameter -->
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+						name="logtype"
+						type="list"
+						size="7"
+						default="db"
+						label="PLG_SYSTEM_EMAILLOG_LOGTYPE_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_LOGTYPE_DESCRIPTION"
+						>
+					<option value="db">PLG_SYSTEM_EMAILLOG_DATABASE</option>
+					<option value="file">PLG_SYSTEM_EMAILLOG_FILE</option>
+					<option value="both">PLG_SYSTEM_EMAILLOG_BOTH</option>
+				</field>
+				<field
+						name="log_contactid"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_CONTACTID_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_CONTACTID_DESC"
+						class="btn-group btn-group-yesno"
+						default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="log_sender_name"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_SENDER_NAME_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_SENDER_NAME_DESC"
+						class="btn-group btn-group-yesno"
+						default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="log_sender_email"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_SENDER_EMAIL_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_SENDER_EMAIL_DESC"
+						class="btn-group btn-group-yesno"
+						default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="log_mail_subject"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_SUBJECT_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_SUBJECT_DESC"
+						class="btn-group btn-group-yesno"
+						default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="log_message"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_MESSAGE_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_MESSAGE_DESC"
+						class="btn-group btn-group-yesno"
+						default="0"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+						name="log_mail_fields"
+						type="radio"
+						label="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_FIELDS_LABEL"
+						description="PLG_SYSTEM_EMAILLOG_FIELD_LOG_MAIL_FIELDS_DESC"
+						class="btn-group btn-group-yesno"
+						default="0"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+</extension>
