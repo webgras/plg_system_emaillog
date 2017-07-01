@@ -1,5 +1,5 @@
 <h1>plg_system_emaillog</h1>
-<p>Plugin for Joomla to log emails that are sent throught the Joomla contact form.
+<p>Plugin for Joomla to log emails that are sent through the Joomla contact form.
 <h2>Install</h2>
 <p>Install the plugin with the Joomla installer</p>
 <h2>Setup</h2>
