@@ -5,4 +5,4 @@
 <h2>Setup</h2>
 <p>activate the plugin and setup the type of log and the fields you want to log</p>
 <h2>Usage</h2>
-<p>Create a Joomla contact with contact formular. Submit the contact formular in frontend. Check administrator/logs/error.php if logtype is file. Check database in table #__contact_email_log for log entries if logtype is database.</p>
+<p>Create a Joomla contact with contact formular. Submit the contact formular in frontend. Check administrator/logs/email_log.php if logtype is file. Check database in table #__contact_email_log for log entries if logtype is database.</p>
