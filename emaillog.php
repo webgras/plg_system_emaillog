@@ -79,7 +79,7 @@ class PlgSystemEmaillog extends JPlugin
 		$logEmail['status']  = 'emailcontact';
 		$logEmail['comment'] = JText::sprintf('PLG_SYSTEM_EMAILLOG_FILELOG_TEXTENTRY', $contact->id, $data['contact_email'], $data['contact_subject']);
 
-		//set filename in directory administrator/log/
+		//set filename in joomla logs-directory
 		$options              = array();
 		$options['text_file'] = 'email_log.php';
 

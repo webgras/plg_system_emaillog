@@ -7,7 +7,7 @@
 	<authorUrl>http://www.webgras.at</authorUrl>
 	<copyright>2017 copyright</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<description>PLG_SYSTEM_EMAILLOG_XML_DESCRIPTION</description>
 
 	<!-- Language files -->
@@ -121,4 +121,9 @@
 			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
+	<updateservers>
+		<server type="extension" priority="1" name="PLG_SYSTEM_EMAILLOG">
+			https://www.webgras.at/downloads/plugins/plgSystemEmaillog_update.xml
+		</server>
+	</updateservers>
 </extension>
