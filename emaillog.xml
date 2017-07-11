@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.5" type="plugin" group="system" method="upgrade">
+<extension version="3.7" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYSTEM_EMAILLOG</name>
-	<creationDate>27.06.2017</creationDate>
-	<author>Sigrid</author>
+	<creationDate>11.07.2017</creationDate>
+	<author>Sigrid Gramlinger</author>
 	<authorEmail>gramlinger@webgras.at</authorEmail>
 	<authorUrl>http://www.webgras.at</authorUrl>
 	<copyright>2017 copyright</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.0.2</version>
+	<version>1.0.0</version>
 	<description>PLG_SYSTEM_EMAILLOG_XML_DESCRIPTION</description>
 
 	<!-- Language files -->
